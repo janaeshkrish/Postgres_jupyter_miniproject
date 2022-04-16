@@ -1,0 +1,51 @@
+version: "3.4"
+
+services:
+
+  db:
+    restart: always
+
+    image: "bitnami/postgresql:11.11.0"
+
+    ports:
+      - 5001:5432 # default port for postgresql
+
+    environment:
+      POSTGRESQL_USERNAME: "${DB_USER}"
+      POSTGRESQL_PASSWORD: "${DB_PASSWORD}"
+
+    volumes:
+      - ./db:/bitnami/postgresql
+
+  notebook:
+
+    restart: always
+
+    image: jupyter/datascience-notebook
+
+    environment:
+      POSTGRESQL_USERNAME: "${DB_USER}"
+      POSTGRESQL_PASSWORD: "${DB_PASSWORD}"
+      PASSWORD: "${DB_PASSWORD}"
+
+    volumes:
+      - ./data:/home/jovyan
+
+    ports:
+      - 8000:8888
+
+    command: jupyter notebook --port 8888 --no-browser --ip=0.0.0.0 --allow-root
+
+    links:
+      - db
+
+# networks:
+#   default:
+#     external: true
+#     name: external-network
+
+# volumes:
+#   pgdata:
+#     # creates a named volume for postgresql data
+
+# 096e36d450f3a991280942d8b884f3c4dcff36888b46be95
