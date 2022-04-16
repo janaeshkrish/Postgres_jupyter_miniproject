@@ -19,4 +19,3 @@ Python 3.9.10
 
 ## Server link
 To access the server [click here](http://164.52.219.61:8000/)
-password : janaeshwar
